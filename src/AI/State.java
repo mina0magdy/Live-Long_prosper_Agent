@@ -1,3 +1,5 @@
+package AI;
+
 public class State {
 
     private int initialProsperity;
@@ -23,8 +25,29 @@ public class State {
     private int materialsUseBUILD2;
     private int energyUseBUILD2;
     private int prosperityBUILD2;
+    private long moneySoFar;
+    private int prosperityLevel;
+    public int getProsperityLevel() {
+        return prosperityLevel;
+    }
 
-    public State(int initialProsperity, int initialFood,int initialMaterials,int initialEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2) {
+    public void setProsperityLevel(int prosperityLevel) {
+        this.prosperityLevel = prosperityLevel;
+    }
+
+
+
+    public long getMoneySoFar() {
+        return moneySoFar;
+    }
+
+    public void setMoneySoFar(long moneySoFar) {
+        this.moneySoFar = moneySoFar;
+    }
+
+
+
+    public State(int initialProsperity, int initialFood,int initialMaterials,int initialEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2,long moneySoFar,int prosperityLevel) {
         this.initialProsperity = initialProsperity;
         this.initialFood = initialFood;
         this.initialMaterials=initialMaterials;
@@ -48,6 +71,8 @@ public class State {
         this.materialsUseBUILD2 = materialsUseBUILD2;
         this.energyUseBUILD2 = energyUseBUILD2;
         this.prosperityBUILD2 = prosperityBUILD2;
+        this.moneySoFar=moneySoFar;
+        this.prosperityLevel=prosperityLevel;
     }
 
     public int getInitialProsperity() {

@@ -1,3 +1,5 @@
+package AI;
+
 public enum Operator {
     WAIT,
     REQUEST_FOOD,
