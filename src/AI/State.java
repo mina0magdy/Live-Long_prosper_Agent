@@ -2,10 +2,10 @@ package AI;
 
 public class State {
 
-    private int initialProsperity;
-    private int initialFood;
-    private int initialMaterials;
-    private int initialEnergy;
+    private int currentProsperity;
+    private int currentFood;
+    private int currentMaterials;
+    private int currentEnergy;
     private int unitPriceFood;
     private int unitPriceMaterials;
     private int unitPriceEnergy;
@@ -15,27 +15,20 @@ public class State {
     private int delayRequestMaterials;
     private int amountRequestEnergy;
     private int delayRequestEnergy;
-    private int  priceBUILD1;
+    private int priceBUILD1;
     private int foodUseBUILD1;
     private int materialsUseBUILD1;
     private int energyUseBUILD1;
     private int prosperityBUILD1;
-    private int  priceBUILD2;
+    private int priceBUILD2;
     private int foodUseBUILD2;
     private int materialsUseBUILD2;
     private int energyUseBUILD2;
     private int prosperityBUILD2;
     private long moneySoFar;
-    private int prosperityLevel;
-    public int getProsperityLevel() {
-        return prosperityLevel;
-    }
-
-    public void setProsperityLevel(int prosperityLevel) {
-        this.prosperityLevel = prosperityLevel;
-    }
-
-
+    private int currentFoodDelay;
+    private int currentMaterialsDelay;
+    private int currentEnergyDelay;
 
     public long getMoneySoFar() {
         return moneySoFar;
@@ -45,13 +38,51 @@ public class State {
         this.moneySoFar = moneySoFar;
     }
 
+    public int getCurrentFoodDelay() {
+        return currentFoodDelay;
+    }
 
+    public void setCurrentFoodDelay(int currentFoodDelay) {
+        if(currentFoodDelay<0)
+            this.currentFoodDelay=0;
+        else if(currentFoodDelay==0)
+            this.currentFood=currentFood+amountRequestFood;
+        else
+            this.currentFoodDelay = currentFoodDelay;
+    }
 
-    public State(int initialProsperity, int initialFood,int initialMaterials,int initialEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2,long moneySoFar,int prosperityLevel) {
-        this.initialProsperity = initialProsperity;
-        this.initialFood = initialFood;
-        this.initialMaterials=initialMaterials;
-        this.initialEnergy=initialEnergy;
+    public int getCurrentMaterialsDelay() {
+        return currentMaterialsDelay;
+    }
+
+    public void setCurrentMaterialsDelay(int currentMaterialsDelay) {
+        this.currentMaterialsDelay = currentMaterialsDelay;
+        if (currentMaterialsDelay<0)
+            this.currentMaterialsDelay=0;
+        else if(currentMaterialsDelay==0)
+            this.currentMaterials=currentMaterials+amountRequestMaterials;
+        else
+            this.currentMaterialsDelay = currentMaterialsDelay;
+    }
+
+    public int getCurrentEnergyDelay() {
+        return currentEnergyDelay;
+    }
+
+    public void setCurrentEnergyDelay(int currentEnergyDelay) {
+        if (currentEnergyDelay<0)
+            this.currentEnergyDelay=0;
+        else if(currentEnergyDelay==0)
+            this.currentEnergy=currentEnergy+amountRequestEnergy;
+        else
+            this.currentEnergyDelay = currentEnergyDelay;
+    }
+
+    public State(int currentProsperity, int currentFood, int currentMaterials, int currentEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2, long moneySoFar, int prosperityLevel) {
+        this.currentProsperity = currentProsperity;
+        this.currentFood = currentFood;
+        this.currentMaterials = currentMaterials;
+        this.currentEnergy = currentEnergy;
         this.unitPriceFood = unitPriceFood;
         this.unitPriceMaterials = unitPriceMaterials;
         this.unitPriceEnergy = unitPriceEnergy;
@@ -72,39 +103,41 @@ public class State {
         this.energyUseBUILD2 = energyUseBUILD2;
         this.prosperityBUILD2 = prosperityBUILD2;
         this.moneySoFar=moneySoFar;
-        this.prosperityLevel=prosperityLevel;
+        this.currentFoodDelay=0;
+        this.currentMaterialsDelay=0;
+        this.currentEnergyDelay=0;
     }
 
-    public int getInitialProsperity() {
-        return initialProsperity;
+    public int getCurrentProsperity() {
+        return currentProsperity;
     }
 
-    public void setInitialProsperity(int initialProsperity) {
-        this.initialProsperity = initialProsperity;
+    public void setCurrentProsperity(int currentProsperity) {
+        this.currentProsperity = currentProsperity;
     }
 
-    public int getInitialFood() {
-        return initialFood;
+    public int getCurrentFood() {
+        return currentFood;
     }
 
-    public void setInitialFood(int initialFood) {
-        this.initialFood = initialFood;
+    public void setCurrentFood(int currentFood) {
+        this.currentFood = currentFood;
     }
 
-    public int getInitialMaterials() {
-        return initialMaterials;
+    public int getCurrentMaterials() {
+        return currentMaterials;
     }
 
-    public void setInitialMaterials(int initialMaterials) {
-        this.initialMaterials = initialMaterials;
+    public void setCurrentMaterials(int currentMaterials) {
+        this.currentMaterials = currentMaterials;
     }
 
-    public int getInitialEnergy() {
-        return initialEnergy;
+    public int getCurrentEnergy() {
+        return currentEnergy;
     }
 
-    public void setInitialEnergy(int initialEnergy) {
-        this.initialEnergy = initialEnergy;
+    public void setCurrentEnergy(int currentEnergy) {
+        this.currentEnergy = currentEnergy;
     }
 
     public int getUnitPriceFood() {

@@ -6,23 +6,24 @@ public class LLAPSearch extends GenericSearch {
         super(problem, searchStrategy);
     }
 
-    public String solve(String initialState, SearchStrategy strategy, boolean visualize){
+    public static String solve(String initialState, SearchStrategy strategy, boolean visualize){
             //super.getProblem().setInitialState(parseInitialState(initialState));
-            super.setVisualize(visualize);
-            Node goalNode=super.SolveGenericSearch();
+            GenericSearch genericSearch=new GenericSearch(new Problem(parseInitialState(initialState)),strategy);
+            genericSearch.setVisualize(visualize);
+            Node goalNode=genericSearch.SolveGenericSearch();
             long moneySpent=goalNode.getState().getMoneySoFar();
-            int numExpanedNodes=super.getNumExpandedNodes();
+            int numExpanedNodes=genericSearch.getNumExpandedNodes();
             String plan=reconstruction(goalNode);
             return plan+";"+moneySpent+";"+numExpanedNodes;
             
     }
-    private String reconstruction(Node goal){
+    private static String reconstruction(Node goal){
             if(goal==null)
                     return "";
             return reconstruction(goal.getParentNode())+","+goal.getOperator();
     }
 
-    public State parseInitialState(String initialState){
+    public static State parseInitialState(String initialState){
             String[] input = initialState.split(";");
 
 

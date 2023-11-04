@@ -13,6 +13,9 @@ public class Problem {
         this.operators = operators;
         this.initialState = initialState;
     }
+    public Problem(State initialState) {
+        this.initialState = initialState;
+    }
 
     public ArrayList<Operator> getOperators() {
         return operators;

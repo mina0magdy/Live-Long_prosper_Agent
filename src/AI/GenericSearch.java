@@ -77,13 +77,17 @@ public class GenericSearch {
           for(int i=0;i<6;i++){
               if (searchStrategy== SearchStrategy.BF)
               {
-                  if(tempNodes.get(i)!=null)
+                  if(tempNodes.get(i)!=null){
                     nodes.add(tempNodes.get(i));
+                    numExpandedNodes++;
+                  }
               }
               if (searchStrategy== SearchStrategy.DF)
               {
-                  if(tempNodes.get(5-i)!=null)
+                  if(tempNodes.get(5-i)!=null){
                     nodes.addFirst(tempNodes.get(5-i));
+                    numExpandedNodes++;
+                  }
               }
           }
 
@@ -93,7 +97,7 @@ public class GenericSearch {
 
     }
     private boolean goalTest(Node testNode){
-        if(testNode.getState().getProsperityLevel()==100 && testNode.getState().getMoneySoFar()<=100000 )
+        if(testNode.getState().getCurrentProsperity()>=100 && testNode.getState().getMoneySoFar()<=100000 )
            return true;
         return false;
     }
