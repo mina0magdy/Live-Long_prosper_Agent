@@ -1,3 +1,7 @@
+package AI;
+
+import AI.Operator;
+
 import java.util.ArrayList;
 
 public class Problem {

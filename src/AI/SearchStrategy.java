@@ -1,3 +1,5 @@
+package AI;
+
 public enum SearchStrategy {
     BF,
     DF,

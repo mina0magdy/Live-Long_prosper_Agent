@@ -1,12 +1,25 @@
-public class LLAPSearch extends GenericSearch{
+package AI;
+
+public class LLAPSearch extends GenericSearch {
 
     public LLAPSearch(Problem problem, SearchStrategy searchStrategy) {
         super(problem, searchStrategy);
     }
 
-    public static void solve(String initialState, SearchStrategy strategy, boolean visualize){
+    public String solve(String initialState, SearchStrategy strategy, boolean visualize){
             //super.getProblem().setInitialState(parseInitialState(initialState));
+            super.setVisualize(visualize);
+            Node goalNode=super.SolveGenericSearch();
+            long moneySpent=goalNode.getState().getMoneySoFar();
+            int numExpanedNodes=super.getNumExpandedNodes();
+            String plan=reconstruction(goalNode);
+            return plan+";"+moneySpent+";"+numExpanedNodes;
             
+    }
+    private String reconstruction(Node goal){
+            if(goal==null)
+                    return "";
+            return reconstruction(goal.getParentNode())+","+goal.getOperator();
     }
 
     public State parseInitialState(String initialState){
@@ -81,6 +94,15 @@ public class LLAPSearch extends GenericSearch{
                     foodUseBUILD2,
                     materialsUseBUILD2,
                     energyUseBUILD2,
-                    prosperityBUILD2);
+                    prosperityBUILD2,
+                    0,
+                    0);
     }
+
+
+    //returns number of expanded nodes, so don't forget to keep track of them
+
+
+
 }
+
