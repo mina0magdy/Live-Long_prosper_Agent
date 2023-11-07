@@ -43,10 +43,12 @@ public class State {
     }
 
     public void setCurrentFoodDelay(int currentFoodDelay) {
-        if(currentFoodDelay<0)
-            this.currentFoodDelay=0;
-        else if(currentFoodDelay==0)
+        if(currentFoodDelay<-1)
+            this.currentFoodDelay=-1;
+        else if(currentFoodDelay==-1){
             this.currentFood=currentFood+amountRequestFood;
+            this.currentFoodDelay=-1;
+        }
         else
             this.currentFoodDelay = currentFoodDelay;
     }
@@ -56,11 +58,12 @@ public class State {
     }
 
     public void setCurrentMaterialsDelay(int currentMaterialsDelay) {
-        this.currentMaterialsDelay = currentMaterialsDelay;
-        if (currentMaterialsDelay<0)
-            this.currentMaterialsDelay=0;
-        else if(currentMaterialsDelay==0)
+        if(currentMaterialsDelay<-1)
+            this.currentMaterialsDelay=-1;
+        else if(currentMaterialsDelay==-1){
             this.currentMaterials=currentMaterials+amountRequestMaterials;
+            this.currentMaterialsDelay=-1;
+        }
         else
             this.currentMaterialsDelay = currentMaterialsDelay;
     }
@@ -70,10 +73,12 @@ public class State {
     }
 
     public void setCurrentEnergyDelay(int currentEnergyDelay) {
-        if (currentEnergyDelay<0)
-            this.currentEnergyDelay=0;
-        else if(currentEnergyDelay==0)
+        if(currentEnergyDelay<-1)
+            this.currentEnergyDelay=-1;
+        else if(currentEnergyDelay==-1){
             this.currentEnergy=currentEnergy+amountRequestEnergy;
+            this.currentEnergyDelay=-1;
+        }
         else
             this.currentEnergyDelay = currentEnergyDelay;
     }
@@ -103,9 +108,9 @@ public class State {
         this.energyUseBUILD2 = energyUseBUILD2;
         this.prosperityBUILD2 = prosperityBUILD2;
         this.moneySoFar=moneySoFar;
-        this.currentFoodDelay=0;
-        this.currentMaterialsDelay=0;
-        this.currentEnergyDelay=0;
+        this.currentFoodDelay=-1;
+        this.currentMaterialsDelay=-1;
+        this.currentEnergyDelay=-1;
     }
 
     public int getCurrentProsperity() {

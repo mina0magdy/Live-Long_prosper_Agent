@@ -1,6 +1,7 @@
 package AI;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class GenericSearch {
@@ -58,7 +59,10 @@ public class GenericSearch {
         }
         while(!(nodes.isEmpty()))
         {
+          if(searchStrategy== SearchStrategy.UC)
+              nodes.sort(Comparator.comparing(node -> node.getState().getMoneySoFar()));
           Node current=nodes.removeFirst();
+          numExpandedNodes++;
           if (goalTest(current))
               return current;
           List<Node> tempNodes=new ArrayList<Node>();
@@ -79,18 +83,25 @@ public class GenericSearch {
               {
                   if(tempNodes.get(i)!=null){
                     nodes.add(tempNodes.get(i));
-                    numExpandedNodes++;
                   }
               }
               if (searchStrategy== SearchStrategy.DF)
               {
                   if(tempNodes.get(5-i)!=null){
                     nodes.addFirst(tempNodes.get(5-i));
-                    numExpandedNodes++;
+                  }
+              }
+              if(searchStrategy== SearchStrategy.ID)
+              {
+
+              }
+              if(searchStrategy== SearchStrategy.UC)
+              {
+                  if(tempNodes.get(i)!=null){
+                    nodes.add(tempNodes.get(i));
                   }
               }
           }
-
         }
             return null;
 
