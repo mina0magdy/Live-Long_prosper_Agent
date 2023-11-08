@@ -1,3 +1,7 @@
+package AI;
+
+import AI.Operator;
+
 import java.util.ArrayList;
 
 public class Problem {
@@ -7,6 +11,9 @@ public class Problem {
 
     public Problem(ArrayList<Operator> operators, State initialState) {
         this.operators = operators;
+        this.initialState = initialState;
+    }
+    public Problem(State initialState) {
         this.initialState = initialState;
     }
 
