@@ -10,9 +10,9 @@ public class Actions {
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
         if(newState.getMoneySoFar()>100000)
             return null;
-        newState.setCurrentEnergy(newState.getCurrentEnergy()-newState.getUnitPriceEnergy());
-        newState.setCurrentFood(newState.getCurrentFood()-newState.getUnitPriceFood());
-        newState.setCurrentMaterials(newState.getCurrentMaterials()-newState.getUnitPriceMaterials());
+        newState.setCurrentEnergy(newState.getCurrentEnergy()-1);
+        newState.setCurrentFood(newState.getCurrentFood()-1);
+        newState.setCurrentMaterials(newState.getCurrentMaterials()-1);
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentFoodDelay(newState.getDelayRequestFood());
@@ -27,9 +27,9 @@ public class Actions {
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
         if(newState.getMoneySoFar()>100000)
             return null;
-        newState.setCurrentEnergy(newState.getCurrentEnergy()-newState.getUnitPriceEnergy());
-        newState.setCurrentFood(newState.getCurrentFood()-newState.getUnitPriceFood());
-        newState.setCurrentMaterials(newState.getCurrentMaterials()-newState.getUnitPriceMaterials());
+        newState.setCurrentEnergy(newState.getCurrentEnergy()-1);
+        newState.setCurrentFood(newState.getCurrentFood()-1);
+        newState.setCurrentMaterials(newState.getCurrentMaterials()-1);
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentMaterialsDelay(newState.getDelayRequestMaterials());
@@ -44,9 +44,9 @@ public class Actions {
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
         if(newState.getMoneySoFar()>100000)
             return null;
-        newState.setCurrentEnergy(newState.getCurrentEnergy()-newState.getUnitPriceEnergy());
-        newState.setCurrentFood(newState.getCurrentFood()-newState.getUnitPriceFood());
-        newState.setCurrentMaterials(newState.getCurrentMaterials()-newState.getUnitPriceMaterials());
+        newState.setCurrentEnergy(newState.getCurrentEnergy()-1);
+        newState.setCurrentFood(newState.getCurrentFood()-1);
+        newState.setCurrentMaterials(newState.getCurrentMaterials()-1);
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentEnergyDelay(newState.getDelayRequestEnergy());
@@ -59,9 +59,9 @@ public class Actions {
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
         if(newState.getMoneySoFar()>100000)
             return null;
-        newState.setCurrentEnergy(newState.getCurrentEnergy()-newState.getUnitPriceEnergy());
-        newState.setCurrentFood(newState.getCurrentFood()-newState.getUnitPriceFood());
-        newState.setCurrentMaterials(newState.getCurrentMaterials()-newState.getUnitPriceMaterials());
+        newState.setCurrentEnergy(newState.getCurrentEnergy()-1);
+        newState.setCurrentFood(newState.getCurrentFood()-1);
+        newState.setCurrentMaterials(newState.getCurrentMaterials()-1);
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
