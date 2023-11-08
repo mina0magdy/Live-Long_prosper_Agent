@@ -3,6 +3,7 @@ package AI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class GenericSearch {
     private Problem problem;
@@ -51,17 +52,19 @@ public class GenericSearch {
     }
     public Node SolveGenericSearch (){
         Node initialNode= new Node(problem.getInitialState(),null,null,0,0,0);
-        List<Node> nodes=null;
-        if (searchStrategy== SearchStrategy.BF|| searchStrategy== SearchStrategy.DF)
+        List<Node> nodesBF_DF=null;
+        PriorityQueue<Node> nodesUC_GR1_GR2_AS1_AS2=null;
+        if (searchStrategy== SearchStrategy.BF|| searchStrategy== SearchStrategy.DF || searchStrategy== SearchStrategy.ID)
         {
-         nodes=new ArrayList<Node>();
-         nodes.add(initialNode);
+            nodesBF_DF=new ArrayList<Node>();
+            nodesBF_DF.add(initialNode);
         }
-        while(!(nodes.isEmpty()))
+        else{
+            nodesUC_GR1_GR2_AS1_AS2=new PriorityQueue<Node>();
+        }
+        while(!(nodesBF_DF.isEmpty()))
         {
-          if(searchStrategy== SearchStrategy.UC)
-              nodes.sort(Comparator.comparing(node -> node.getState().getMoneySoFar()));
-          Node current=nodes.removeFirst();
+          Node current=nodesBF_DF.removeFirst();
           numExpandedNodes++;
           if (goalTest(current))
               return current;
@@ -82,23 +85,13 @@ public class GenericSearch {
               if (searchStrategy== SearchStrategy.BF)
               {
                   if(tempNodes.get(i)!=null){
-                    nodes.add(tempNodes.get(i));
+                    nodesBF_DF.add(tempNodes.get(i));
                   }
               }
               if (searchStrategy== SearchStrategy.DF)
               {
                   if(tempNodes.get(5-i)!=null){
-                    nodes.addFirst(tempNodes.get(5-i));
-                  }
-              }
-              if(searchStrategy== SearchStrategy.ID)
-              {
-
-              }
-              if(searchStrategy== SearchStrategy.UC)
-              {
-                  if(tempNodes.get(i)!=null){
-                    nodes.add(tempNodes.get(i));
+                    nodesBF_DF.addFirst(tempNodes.get(5-i));
                   }
               }
           }

@@ -16,7 +16,7 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentFoodDelay(newState.getDelayRequestFood());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_FOOD, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_FOOD, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
     public static Node requestMaterials(Node input,boolean visualize) {
@@ -33,7 +33,7 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentMaterialsDelay(newState.getDelayRequestMaterials());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_MATERIALS, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_MATERIALS, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
     public static Node requestEnergy(Node input,boolean visualize) {
@@ -50,7 +50,7 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentEnergyDelay(newState.getDelayRequestEnergy());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_ENERGY, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_ENERGY, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
     public static Node wait(Node input,boolean visualize) {
@@ -67,7 +67,7 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.WAIT, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.WAIT, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
     public static Node build1(Node input,boolean visualize) {
@@ -85,7 +85,7 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_1, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_1, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
     public static Node build2(Node input,boolean visualize) {
@@ -103,7 +103,7 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_2, input.getDepth() + 1, MoneySpent, 0);
+        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_2, input.getDepth() + 1, newState.getMoneySoFar(), 0);
         return newNode;
     }
 }

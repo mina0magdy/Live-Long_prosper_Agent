@@ -25,16 +25,16 @@ public class State {
     private int materialsUseBUILD2;
     private int energyUseBUILD2;
     private int prosperityBUILD2;
-    private long moneySoFar;
+    private int moneySoFar;
     private int currentFoodDelay;
     private int currentMaterialsDelay;
     private int currentEnergyDelay;
 
-    public long getMoneySoFar() {
+    public int getMoneySoFar() {
         return moneySoFar;
     }
 
-    public void setMoneySoFar(long moneySoFar) {
+    public void setMoneySoFar(int moneySoFar) {
         this.moneySoFar = moneySoFar;
     }
 
@@ -83,7 +83,7 @@ public class State {
             this.currentEnergyDelay = currentEnergyDelay;
     }
 
-    public State(int currentProsperity, int currentFood, int currentMaterials, int currentEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2, long moneySoFar, int prosperityLevel) {
+    public State(int currentProsperity, int currentFood, int currentMaterials, int currentEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2, int moneySoFar, int prosperityLevel) {
         this.currentProsperity = currentProsperity;
         this.currentFood = currentFood;
         this.currentMaterials = currentMaterials;
