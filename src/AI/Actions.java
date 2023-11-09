@@ -16,7 +16,22 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentFoodDelay(newState.getDelayRequestFood());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_FOOD, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(
+                newState,
+                input,
+                Operator.REQUEST_FOOD,
+                input.getDepth() + 1,
+                newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
     public static Node requestMaterials(Node input,boolean visualize) {
@@ -33,7 +48,16 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentMaterialsDelay(newState.getDelayRequestMaterials());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_MATERIALS, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_MATERIALS, input.getDepth() + 1, newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
     public static Node requestEnergy(Node input,boolean visualize) {
@@ -50,7 +74,17 @@ public class Actions {
         if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
             return null;
         newState.setCurrentEnergyDelay(newState.getDelayRequestEnergy());
-        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_ENERGY, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(newState, input, Operator.REQUEST_ENERGY, input.getDepth() + 1, newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
     public static Node wait(Node input,boolean visualize) {
@@ -67,7 +101,17 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.WAIT, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(newState, input, Operator.WAIT, input.getDepth() + 1, newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
     public static Node build1(Node input,boolean visualize) {
@@ -85,7 +129,17 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_1, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_1, input.getDepth() + 1, newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
     public static Node build2(Node input,boolean visualize) {
@@ -103,7 +157,17 @@ public class Actions {
         newState.setCurrentFoodDelay(newState.getCurrentFoodDelay()-1);
         newState.setCurrentMaterialsDelay(newState.getCurrentMaterialsDelay()-1);
         newState.setCurrentEnergyDelay(newState.getCurrentEnergyDelay()-1);
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_2, input.getDepth() + 1, newState.getMoneySoFar(), 0);
+
+        int prosperityGainBuild1=newState.getProsperityBUILD1();
+        int prosperityGainBuild2=newState.getProsperityBUILD2();
+        int totalSpentBuild1=newState.getPriceBUILD1()+newState.getMaterialsUseBUILD1()+newState.getFoodUseBUILD1()+newState.getEnergyUseBUILD1();
+        int totalSpentBuild2=newState.getPriceBUILD2()+newState.getMaterialsUseBUILD2()+newState.getFoodUseBUILD2()+newState.getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=newState.getCurrentProsperity();
+        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD_2, input.getDepth() + 1, newState.getMoneySoFar(),
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
     }
 }

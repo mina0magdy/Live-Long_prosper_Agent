@@ -1,9 +1,6 @@
 package AI;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class GenericSearch {
     private Problem problem;
@@ -51,38 +48,45 @@ public class GenericSearch {
         this.searchStrategy = searchStrategy;
     }
     public Node SolveGenericSearch (){
-        Node initialNode= new Node(problem.getInitialState(),null,null,0,0,0);
-        List<Node> nodesBF_DF=null;
-        PriorityQueue<Node> nodesUC_GR1_GR2_AS1_AS2=null;
+        int prosperityGainBuild1=problem.getInitialState().getProsperityBUILD1();
+        int prosperityGainBuild2=problem.getInitialState().getProsperityBUILD2();
+        int totalSpentBuild1=problem.getInitialState().getPriceBUILD1()+problem.getInitialState().getMaterialsUseBUILD1()+problem.getInitialState().getFoodUseBUILD1()+problem.getInitialState().getEnergyUseBUILD1();
+        int totalSpentBuild2=problem.getInitialState().getPriceBUILD2()+problem.getInitialState().getMaterialsUseBUILD2()+problem.getInitialState().getFoodUseBUILD2()+problem.getInitialState().getEnergyUseBUILD2();
+        int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
+        int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
+        int currentProsperityLevel=problem.getInitialState().getCurrentProsperity();
+        Node initialNode= new Node(
+                problem.getInitialState(),
+                null,
+                null,
+                0,
+                0,
+                (100-currentProsperityLevel)/maxGainBuild,
+                (100-currentProsperityLevel)*minCostPerProsperityLevel);
         if (searchStrategy== SearchStrategy.BF|| searchStrategy== SearchStrategy.DF )
         {
             return BF_DFSearch(initialNode);
-        }
-        else if(searchStrategy==SearchStrategy.UC){
-            nodesUC_GR1_GR2_AS1_AS2=new PriorityQueue<>((node1,node2)->node1.getPathCost()-node2.getPathCost());
+        } else if (searchStrategy ==searchStrategy.ID) {
+            return IDSearch(initialNode);
+        } else if(searchStrategy==SearchStrategy.UC){
+            return uniformCostSearch(initialNode);
         }
         else if (searchStrategy==SearchStrategy.GR1) {
-            nodesUC_GR1_GR2_AS1_AS2=new PriorityQueue<>((node1,node2)->node1.getHeuristicValue()-node2.getPathCost());
+            return greedySearch1(initialNode);
         }
         else if (searchStrategy==SearchStrategy.GR2) {
-
+            return greedySearch2(initialNode);
         }
         else if (searchStrategy==SearchStrategy.AS1) {
-
+            return AStar1(initialNode);
         }
         else {
-
+            return AStar2(initialNode);
         }
-
-
-
-
     }
 
     private Node BF_DFSearch(Node initialNode){
-        List<Node> nodesBF_DF=null;
-
-        nodesBF_DF=new ArrayList<Node>();
+        LinkedList<Node> nodesBF_DF=new LinkedList<Node>();
         nodesBF_DF.add(initialNode);
 
         while(!(nodesBF_DF.isEmpty())) {
@@ -109,15 +113,13 @@ public class GenericSearch {
     }
 
     private Node IDSearch(Node initialNode){
-
-
         int currentMaxLevel=0;
-        for(int j=0;j<Integer.MAX_VALUE;j++) {
+        for(int maxLevel=0;maxLevel<Integer.MAX_VALUE;maxLevel++) {
             for (int i = 0; i <= currentMaxLevel; i++) {
-
-                List<Node> nodesID = null;
-                nodesID = new ArrayList<Node>();
+                LinkedList<Node> nodesID = null;
+                nodesID = new LinkedList<>();
                 nodesID.add(initialNode);
+                boolean maxLevelReached=false;
                 while (!(nodesID.isEmpty())) {
                     Node current = nodesID.removeFirst();
                     numExpandedNodes++;
@@ -126,9 +128,9 @@ public class GenericSearch {
 
                     //check if we reached tha max level
                     if (current.getDepth() == currentMaxLevel) {
-                        break;
+                        maxLevelReached=true;
+                        continue;
                     }
-
                     List<Node> tempNodes = expand(current);
                     for (int j = 0; j < 6; j++) {
                         if (tempNodes.get(5 - j) != null) {
@@ -136,53 +138,101 @@ public class GenericSearch {
                         }
                     }
                 }
-
-                return null;
+                if(!maxLevelReached)
+                    return null;
             }
             currentMaxLevel++;
         }
-
+        return null;
     }
-
-    public Node iterativeDeepeningSearch(Node root) {
-        int depth = 0;
-        while (true) {
-            NodeIDResultPair result = depthLimitedSearch(root, depth);
-            if (result.getResult() == IDResult.GOAL_FOUND) {
-                return result.getNode();
-            } else if (result.getResult() == IDResult.CUTOFF) {
-                depth++;
-            } else if (result.getResult() == IDResult.FAILURE) {
-                return null;
-            }
-        }
-    }
-
-    public  NodeIDResultPair depthLimitedSearch(Node node, int depth) {
-        if (goalTest(node)) {
-            return new NodeIDResultPair(node,IDResult.GOAL_FOUND);
-        } else if (depth == 0) {
-            return new NodeIDResultPair(node,IDResult.CUTOFF);
-        } else {
-            boolean cutoffOccurred = false;
-            for (Node child : expand(node)) {
-                NodeIDResultPair result = depthLimitedSearch(child, depth - 1);
-                if (result.getResult() == IDResult.CUTOFF) {
-                    cutoffOccurred = true;
-                } else if (result.getResult() == IDResult.GOAL_FOUND) {
-                    return new NodeIDResultPair(node,IDResult.GOAL_FOUND);
+    private Node uniformCostSearch(Node initialNode){
+        PriorityQueue <Node> ucQueue=new PriorityQueue<>((node1,node2)->node1.getPathCost()-node2.getPathCost());
+        ucQueue.add(initialNode);
+        while(!(ucQueue.isEmpty())) {
+            Node current = ucQueue.remove();
+            numExpandedNodes++;
+            if (goalTest(current))
+                return current;
+            List<Node> tempNodes = expand(current);
+            for (int i = 0; i < 6; i++) {
+                if (tempNodes.get(i) != null) {
+                    ucQueue.add(tempNodes.get(i));
                 }
             }
-            if (cutoffOccurred) {
-                return new NodeIDResultPair(node,IDResult.CUTOFF);
-            } else {
-                return new NodeIDResultPair(node,IDResult.FAILURE);
+        }
+        return null;
+    }
+    private Node greedySearch1(Node initialNode){
+        PriorityQueue <Node> gsQueue=new PriorityQueue<>((node1,node2)->node1.getHeuristicValue1()-node2.getHeuristicValue1());
+        gsQueue.add(initialNode);
+        while(!(gsQueue.isEmpty())) {
+            Node current = gsQueue.remove();
+            numExpandedNodes++;
+            if (goalTest(current))
+                return current;
+            List<Node> tempNodes = expand(current);
+            for (int i = 0; i < 6; i++) {
+                if (tempNodes.get(i) != null) {
+                    gsQueue.add(tempNodes.get(i));
+                }
             }
         }
+        return null;
+    }
+    private Node greedySearch2(Node initialNode){
+        PriorityQueue <Node> gsQueue=new PriorityQueue<>((node1,node2)->node1.getHeuristicValue2()-node2.getHeuristicValue2());
+        gsQueue.add(initialNode);
+        while(!(gsQueue.isEmpty())) {
+            Node current = gsQueue.remove();
+            numExpandedNodes++;
+            if (goalTest(current))
+                return current;
+            List<Node> tempNodes = expand(current);
+            for (int i = 0; i < 6; i++) {
+                if (tempNodes.get(i) != null) {
+                    gsQueue.add(tempNodes.get(i));
+                }
+            }
+        }
+        return null;
+    }
+    private Node AStar1(Node initialNode){
+        PriorityQueue <Node> AQueue=new PriorityQueue<>((node1,node2)->(node1.getHeuristicValue1()+node1.getPathCost())-(node2.getHeuristicValue1()+node2.getPathCost()));
+        AQueue.add(initialNode);
+        while(!(AQueue.isEmpty())) {
+            Node current = AQueue.remove();
+            numExpandedNodes++;
+            if (goalTest(current))
+                return current;
+            List<Node> tempNodes = expand(current);
+            for (int i = 0; i < 6; i++) {
+                if (tempNodes.get(i) != null) {
+                    AQueue.add(tempNodes.get(i));
+                }
+            }
+        }
+        return null;
+    }
+    private Node AStar2(Node initialNode){
+        PriorityQueue <Node> AQueue=new PriorityQueue<>((node1,node2)->(node1.getHeuristicValue2()+node1.getPathCost())-(node2.getHeuristicValue2()+node2.getPathCost()));
+        AQueue.add(initialNode);
+        while(!(AQueue.isEmpty())) {
+            Node current = AQueue.remove();
+            numExpandedNodes++;
+            if (goalTest(current))
+                return current;
+            List<Node> tempNodes = expand(current);
+            for (int i = 0; i < 6; i++) {
+                if (tempNodes.get(i) != null) {
+                    AQueue.add(tempNodes.get(i));
+                }
+            }
+        }
+        return null;
     }
 
-    public  ArrayList<Node> expand(Node current) {
-        ArrayList<Node> tempNodes = new ArrayList<>();
+    public  LinkedList<Node> expand(Node current) {
+        LinkedList<Node> tempNodes = new LinkedList<>();
         Node node1 = Actions.requestFood(current, visualize);
         Node node2 = Actions.requestMaterials(current, visualize);
         Node node3 = Actions.requestEnergy(current, visualize);

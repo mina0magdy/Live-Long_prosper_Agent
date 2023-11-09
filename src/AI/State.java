@@ -126,7 +126,12 @@ public class State {
     }
 
     public void setCurrentFood(int currentFood) {
-        this.currentFood = currentFood;
+        if(currentFood>50){
+            this.currentFood = 50;
+        }
+        else{
+            this.currentFood = currentFood;
+        }
     }
 
     public int getCurrentMaterials() {
@@ -134,7 +139,12 @@ public class State {
     }
 
     public void setCurrentMaterials(int currentMaterials) {
-        this.currentMaterials = currentMaterials;
+        if(currentMaterials>50){
+            this.currentMaterials = 50;
+        }
+        else{
+            this.currentMaterials = currentMaterials;
+        }
     }
 
     public int getCurrentEnergy() {
@@ -142,7 +152,13 @@ public class State {
     }
 
     public void setCurrentEnergy(int currentEnergy) {
-        this.currentEnergy = currentEnergy;
+        if(currentEnergy>50){
+            this.currentEnergy = 50;
+        }
+        else{
+            this.currentEnergy = currentEnergy;
+        }
+
     }
 
     public int getUnitPriceFood() {
