@@ -74,4 +74,7 @@ public class Node {
     public void setHeuristicValue1(int heuristicValue1) {
         this.heuristicValue1 = heuristicValue1;
     }
+    public String toString(){
+        return "Current Prosperity: "+this.getState().getCurrentProsperity()+","+"Current Food: "+this.getState().getCurrentFood()+","+ "Current Materials: "+this.getState().getCurrentMaterials()+","+"Current Energy: "+this.getState().getCurrentEnergy()+","+"Money Spent: "+this.getState().getMoneySoFar()+","+"Heuristic Value 1: "+this.getHeuristicValue1()+","+"Heuristic Value 2: "+this.getHeuristicValue2()+","+"Path Cost: "+this.getPathCost();
+    }
 }

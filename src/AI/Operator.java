@@ -2,9 +2,9 @@ package AI;
 
 public enum Operator {
     WAIT,
-    REQUEST_FOOD,
-    REQUEST_MATERIALS,
-    REQUEST_ENERGY,
-    BUILD_1,
-    BUILD_2
+    RequestFood,
+    RequestMaterials,
+    RequestEnergy,
+    BUILD1,
+    BUILD2
 }

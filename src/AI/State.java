@@ -312,4 +312,19 @@ public class State {
     public void setProsperityBUILD2(int prosperityBUILD2) {
         this.prosperityBUILD2 = prosperityBUILD2;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof State){
+            State state=(State)obj;
+            return state.getCurrentProsperity() == this.getCurrentProsperity() &&
+                    state.getCurrentFood() == this.getCurrentFood() &&
+                    state.getCurrentMaterials() == this.getCurrentMaterials() &&
+                    state.getCurrentEnergy() == this.getCurrentEnergy() &&
+                    state.getCurrentFoodDelay() == -1 &&
+                    state.getCurrentMaterialsDelay() == -1 &&
+                    state.getCurrentEnergyDelay() == -1;
+        }
+        return false;
+    }
 }
