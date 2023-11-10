@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 import java.util.*;
 
@@ -88,25 +88,28 @@ public class GenericSearch {
     private Node BF_DFSearch(Node initialNode){
         LinkedList<Node> nodesBF_DF=new LinkedList<Node>();
         nodesBF_DF.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(nodesBF_DF.isEmpty())) {
             Node current = nodesBF_DF.removeFirst();
-            visitedStates.add(current.getState());
+            System.out.println(current.toString());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
-
+            System.out.println(tempNodes);
+            System.out.println("repeated222222"+ visitedStates);
             for (int i = 0; i < 6; i++) {
                 if (searchStrategy == SearchStrategy.BF) {
                     if (tempNodes.get(i) != null) {
-                        if(!visitedStates.contains(tempNodes.get(i).getState()))
+                        if(visitedStates.get(tempNodes.get(i).getState().toString())!=null){
                             nodesBF_DF.add(tempNodes.get(i));
+                            System.out.println("hereeeeeeeeeeeeeeeee");}
                     }
                 }
                 if (searchStrategy == SearchStrategy.DF) {
                     if (tempNodes.get(5 - i) != null) {
-                        if(!visitedStates.contains(tempNodes.get(5 - i).getState()))
+                        if(visitedStates.get(tempNodes.get(5 - i).getState().toString())!=null)
                             nodesBF_DF.addFirst(tempNodes.get(5 - i));
                     }
                 }

@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 public class Node {
     private State state;

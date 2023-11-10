@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 public class LLAPSearch extends GenericSearch {
 
@@ -6,7 +6,8 @@ public class LLAPSearch extends GenericSearch {
         super(problem, searchStrategy);
     }
 
-    public static String solve(String initialState, SearchStrategy strategy, boolean visualize){
+    public static String solve(String initialState, String searchStrategy, boolean visualize){
+            SearchStrategy strategy = SearchStrategy.valueOf(searchStrategy);
             //super.getProblem().setInitialState(parseInitialState(initialState));
             GenericSearch genericSearch=new GenericSearch(new Problem(parseInitialState(initialState)),strategy);
             genericSearch.setVisualize(visualize);

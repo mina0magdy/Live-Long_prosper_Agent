@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 public class State {
 
@@ -320,10 +320,10 @@ public class State {
             return state.getCurrentProsperity() == this.getCurrentProsperity() &&
                     state.getCurrentFood() == this.getCurrentFood() &&
                     state.getCurrentMaterials() == this.getCurrentMaterials() &&
-                    state.getCurrentEnergy() == this.getCurrentEnergy() &&
-                    state.getCurrentFoodDelay() == -1 &&
-                    state.getCurrentMaterialsDelay() == -1 &&
-                    state.getCurrentEnergyDelay() == -1;
+                    state.getCurrentEnergy() == this.getCurrentEnergy();
+//                  &&  state.getCurrentFoodDelay() == -1 &&
+//                    state.getCurrentMaterialsDelay() == -1 &&
+//                    state.getCurrentEnergyDelay() == -1;
         }
         return false;
     }

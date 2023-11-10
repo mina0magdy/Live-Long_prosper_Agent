@@ -1,20 +1,26 @@
-package AI;
+package code;
 
 public class Actions {
    // in any action return null if it can't be performed according to the rules
     public static Node requestFood(Node input, boolean visualize) {
-        if(input.getState().getCurrentFoodDelay()!=-1 || input.getState().getCurrentEnergyDelay()!=-1 || input.getState().getCurrentMaterialsDelay()!=-1)
+        if(input.getState().getCurrentFoodDelay()!=-1 || input.getState().getCurrentEnergyDelay()!=-1 || input.getState().getCurrentMaterialsDelay()!=-1) {
+            System.out.println("here1");
             return null;
+        }
         State newState = input.getState();
         int MoneySpent=newState.getUnitPriceEnergy()+newState.getUnitPriceFood()+newState.getUnitPriceMaterials();
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
-        if(newState.getMoneySoFar()>100000)
+        if(newState.getMoneySoFar()>100000) {
+            System.out.println("here2");
             return null;
+        }
         newState.setCurrentEnergy(newState.getCurrentEnergy()-1);
         newState.setCurrentFood(newState.getCurrentFood()-1);
         newState.setCurrentMaterials(newState.getCurrentMaterials()-1);
-        if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0)
+        if(newState.getCurrentEnergy()<0 || newState.getCurrentFood()<0 || newState.getCurrentMaterials()<0) {
+            System.out.println("here3");
             return null;
+        }
         newState.setCurrentFoodDelay(newState.getDelayRequestFood());
 
         int prosperityGainBuild1=newState.getProsperityBUILD1();
@@ -24,7 +30,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(
+        code.Node newNode = new code.Node(
                 newState,
                 input,
                 Operator.RequestFood,
@@ -55,7 +61,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(newState, input, Operator.RequestMaterials, input.getDepth() + 1, newState.getMoneySoFar(),
+        code.Node newNode = new code.Node(newState, input, Operator.RequestMaterials, input.getDepth() + 1, newState.getMoneySoFar(),
                 (100-currentProsperityLevel)/maxGainBuild,
                 (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
@@ -82,7 +88,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(newState, input, Operator.RequestEnergy, input.getDepth() + 1, newState.getMoneySoFar(),
+        code.Node newNode = new code.Node(newState, input, Operator.RequestEnergy, input.getDepth() + 1, newState.getMoneySoFar(),
                 (100-currentProsperityLevel)/maxGainBuild,
                 (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
@@ -109,7 +115,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(newState, input, Operator.WAIT, input.getDepth() + 1, newState.getMoneySoFar(),
+        code.Node newNode = new code.Node(newState, input, Operator.WAIT, input.getDepth() + 1, newState.getMoneySoFar(),
                 (100-currentProsperityLevel)/maxGainBuild,
                 (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
@@ -137,7 +143,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD1, input.getDepth() + 1, newState.getMoneySoFar(),
+        code.Node newNode = new code.Node(newState, input, Operator.BUILD1, input.getDepth() + 1, newState.getMoneySoFar(),
                 (100-currentProsperityLevel)/maxGainBuild,
                 (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;
@@ -165,7 +171,7 @@ public class Actions {
         int minCostPerProsperityLevel=Math.min(prosperityGainBuild1/totalSpentBuild1,prosperityGainBuild2/totalSpentBuild2);
         int maxGainBuild=Math.max(prosperityGainBuild1,prosperityGainBuild2);
         int currentProsperityLevel=newState.getCurrentProsperity();
-        AI.Node newNode = new AI.Node(newState, input, Operator.BUILD2, input.getDepth() + 1, newState.getMoneySoFar(),
+        code.Node newNode = new code.Node(newState, input, Operator.BUILD2, input.getDepth() + 1, newState.getMoneySoFar(),
                 (100-currentProsperityLevel)/maxGainBuild,
                 (100-currentProsperityLevel)*minCostPerProsperityLevel);
         return newNode;

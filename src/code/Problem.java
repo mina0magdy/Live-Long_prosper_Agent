@@ -1,6 +1,4 @@
-package AI;
-
-import AI.Operator;
+package code;
 
 import java.util.ArrayList;
 
