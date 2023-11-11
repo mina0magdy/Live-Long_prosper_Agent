@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 public class State {
 
@@ -43,11 +43,11 @@ public class State {
     }
 
     public void setCurrentFoodDelay(int currentFoodDelay) {
-        if(currentFoodDelay<-1)
-            this.currentFoodDelay=-1;
-        else if(currentFoodDelay==-1){
+        if(currentFoodDelay < 0)
+            this.currentFoodDelay=0;
+        else if(currentFoodDelay==0){
             this.currentFood=currentFood+amountRequestFood;
-            this.currentFoodDelay=-1;
+            this.currentFoodDelay=0;
         }
         else
             this.currentFoodDelay = currentFoodDelay;
@@ -58,11 +58,11 @@ public class State {
     }
 
     public void setCurrentMaterialsDelay(int currentMaterialsDelay) {
-        if(currentMaterialsDelay<-1)
-            this.currentMaterialsDelay=-1;
-        else if(currentMaterialsDelay==-1){
+        if(currentMaterialsDelay< 0)
+            this.currentMaterialsDelay=0;
+        else if(currentMaterialsDelay==0){
             this.currentMaterials=currentMaterials+amountRequestMaterials;
-            this.currentMaterialsDelay=-1;
+            this.currentMaterialsDelay=0;
         }
         else
             this.currentMaterialsDelay = currentMaterialsDelay;
@@ -73,17 +73,17 @@ public class State {
     }
 
     public void setCurrentEnergyDelay(int currentEnergyDelay) {
-        if(currentEnergyDelay<-1)
-            this.currentEnergyDelay=-1;
-        else if(currentEnergyDelay==-1){
+        if(currentEnergyDelay< 0)
+            this.currentEnergyDelay=0;
+        else if(currentEnergyDelay==0){
             this.currentEnergy=currentEnergy+amountRequestEnergy;
-            this.currentEnergyDelay=-1;
+            this.currentEnergyDelay=0;
         }
         else
             this.currentEnergyDelay = currentEnergyDelay;
     }
 
-    public State(int currentProsperity, int currentFood, int currentMaterials, int currentEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2, int moneySoFar, int prosperityLevel) {
+    public State(int currentProsperity, int currentFood, int currentMaterials, int currentEnergy, int unitPriceFood, int unitPriceMaterials, int unitPriceEnergy, int amountRequestFood, int delayRequestFood, int amountRequestMaterials, int delayRequestMaterials, int amountRequestEnergy, int delayRequestEnergy, int priceBUILD1, int foodUseBUILD1, int materialsUseBUILD1, int energyUseBUILD1, int prosperityBUILD1, int priceBUILD2, int foodUseBUILD2, int materialsUseBUILD2, int energyUseBUILD2, int prosperityBUILD2, int moneySoFar, int currentFoodDelay, int currentMaterialsDelay, int currentEnergyDelay) {
         this.currentProsperity = currentProsperity;
         this.currentFood = currentFood;
         this.currentMaterials = currentMaterials;
@@ -108,9 +108,9 @@ public class State {
         this.energyUseBUILD2 = energyUseBUILD2;
         this.prosperityBUILD2 = prosperityBUILD2;
         this.moneySoFar=moneySoFar;
-        this.currentFoodDelay=-1;
-        this.currentMaterialsDelay=-1;
-        this.currentEnergyDelay=-1;
+        this.currentFoodDelay=currentFoodDelay;
+        this.currentMaterialsDelay=currentMaterialsDelay;
+        this.currentEnergyDelay=currentEnergyDelay;
     }
 
     public int getCurrentProsperity() {
@@ -126,7 +126,12 @@ public class State {
     }
 
     public void setCurrentFood(int currentFood) {
-        this.currentFood = currentFood;
+        if(currentFood>50){
+            this.currentFood = 50;
+        }
+        else{
+            this.currentFood = currentFood;
+        }
     }
 
     public int getCurrentMaterials() {
@@ -134,7 +139,12 @@ public class State {
     }
 
     public void setCurrentMaterials(int currentMaterials) {
-        this.currentMaterials = currentMaterials;
+        if(currentMaterials>50){
+            this.currentMaterials = 50;
+        }
+        else{
+            this.currentMaterials = currentMaterials;
+        }
     }
 
     public int getCurrentEnergy() {
@@ -142,7 +152,13 @@ public class State {
     }
 
     public void setCurrentEnergy(int currentEnergy) {
-        this.currentEnergy = currentEnergy;
+        if(currentEnergy>50){
+            this.currentEnergy = 50;
+        }
+        else{
+            this.currentEnergy = currentEnergy;
+        }
+
     }
 
     public int getUnitPriceFood() {
@@ -295,5 +311,24 @@ public class State {
 
     public void setProsperityBUILD2(int prosperityBUILD2) {
         this.prosperityBUILD2 = prosperityBUILD2;
+    }
+
+    @Override
+    public String toString(){
+        return "Prosperity: "+currentProsperity+" Food: "+currentFood+" Materials: "+currentMaterials+" Energy: "+currentEnergy + " Current Food Delay: "+currentFoodDelay+" Current Materials Delay: "+currentMaterialsDelay+" Current Energy Delay: "+currentEnergyDelay;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof State){
+            State state=(State)obj;
+            return state.getCurrentProsperity() == this.getCurrentProsperity() &&
+                    state.getCurrentFood() == this.getCurrentFood() &&
+                    state.getCurrentMaterials() == this.getCurrentMaterials() &&
+                    state.getCurrentEnergy() == this.getCurrentEnergy()
+                  &&  state.getCurrentFoodDelay() == -1 &&
+                    state.getCurrentMaterialsDelay() == -1 &&
+                    state.getCurrentEnergyDelay() == -1;
+        }
+        return false;
     }
 }

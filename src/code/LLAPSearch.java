@@ -1,4 +1,4 @@
-package AI;
+package code;
 
 public class LLAPSearch extends GenericSearch {
 
@@ -6,22 +6,38 @@ public class LLAPSearch extends GenericSearch {
         super(problem, searchStrategy);
     }
 
-    public static String solve(String initialState, SearchStrategy strategy, boolean visualize){
+    public static String solve(String initialState, String searchStrategy, boolean visualize){
+            SearchStrategy strategy = SearchStrategy.valueOf(searchStrategy);
             //super.getProblem().setInitialState(parseInitialState(initialState));
             GenericSearch genericSearch=new GenericSearch(new Problem(parseInitialState(initialState)),strategy);
             genericSearch.setVisualize(visualize);
             Node goalNode=genericSearch.SolveGenericSearch();
+            if(goalNode==null)
+                    return "NOSOLUTION";
             long moneySpent=goalNode.getState().getMoneySoFar();
-            int numExpanedNodes=genericSearch.getNumExpandedNodes();
+            int numExpandedNodes=genericSearch.getNumExpandedNodes();
             String plan=reconstruction(goalNode);
-            return plan+";"+moneySpent+";"+numExpanedNodes;
-            
+            String Visualization;
+            if(visualize){
+                    Visualization=reconstructionVisualization(goalNode);
+                    System.out.println(Visualization);
+            }
+           String stringToReturn=plan+";"+moneySpent+";"+numExpandedNodes;
+              return stringToReturn.replaceFirst(",","");
+//            return plan+";"+moneySpent+";"+numExpandedNodes;
     }
     private static String reconstruction(Node goal){
             if(goal==null)
                     return "";
+            if(goal.getParentNode()==null)
+                    return "";
             return reconstruction(goal.getParentNode())+","+goal.getOperator();
     }
+        private static String reconstructionVisualization(Node goal){
+                if(goal==null)
+                        return "";
+                return reconstructionVisualization(goal.getParentNode())+"\n"+"Operator: "+goal.getOperator()+"\n"+"New Node by above operator: "+goal.toString();
+        }
 
     public static State parseInitialState(String initialState){
             String[] input = initialState.split(";");
@@ -96,8 +112,7 @@ public class LLAPSearch extends GenericSearch {
                     materialsUseBUILD2,
                     energyUseBUILD2,
                     prosperityBUILD2,
-                    0,
-                    0);
+                    0,0,0,0);
     }
 
 
