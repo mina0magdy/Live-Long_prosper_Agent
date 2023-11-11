@@ -1,0 +1,94 @@
+Search Tree Node ADT:
+State (state): This represents the current state of the problem. It could include information about the current prosperity, food, materials, and energy levels.
+
+Parent Node (parentNode): This is a reference to the node in the search tree that this node was generated from.
+
+Operator (operator): This represents the action that was applied to the parent node to generate this node.
+
+Depth (depth): This is the depth of this node in the search tree.
+
+Path Cost (pathCost): This is the total cost of the path from the initial state to this node. It’s calculated based on the costs of the actions that were applied.
+
+Heuristic Values (heuristicValue1, heuristicValue2): These are estimates of the cost from this state to a goal state. They’re used by some search algorithms to guide the search towards the goal of obtaining efficiency.
+
+The class also includes getter and setter methods for each of these attributes and a toString method that returns a string representation of the node.
+
+
+Search Problem ADT : 
+Operators (operators): This is a list of all possible actions that can be applied to a state in the problem. Each operator is an instance of the Operator class, which presumably defines an action and how it transitions from one state to another state.
+
+Initial State (initialState): This represents the starting point of the problem. It’s an instance of the State class, which encapsulates the state of the problem at a given point.
+
+Goal Test (goalTest): This is the value that defines the goal state of the problem. In this case, it’s a fixed value of 100 for prosperity. A state is considered a goal state if some property of the state equals this value and another value of the money spent.
+
+The class also includes getter and setter methods for each of these attributes.
+
+
+The LLAPSearch Problem: extends the GenericSearch class and represents a specific search problem:
+
+Constructor (LLAPSearch(Problem problem, SearchStrategy searchStrategy)): The constructor takes a Problem and a SearchStrategy as arguments. These are passed to the constructor of the superclass, GenericSearch.
+
+solve(String initialState, String searchStrategy, boolean visualize): This static method presumably solves the search problem. It takes the initial state of the problem, the search strategy to use, and a boolean indicating whether to visualize the solution as arguments.
+
+reconstruction(Node goal) and reconstructionVisualization(Node goal): These methods presumably reconstruct the solution from the goal node back to the initial state.
+
+parseInitialState(String initialState): This static method presumably parses the initial state from a string representation to a State object.
+
+public static String solve(String initialState, String searchStrategy, boolean visualize)
+The solve method serves as the main entry point for the problem-solving process. It takes three parameters: the initial state of the problem (initialState), the chosen search strategy (searchStrategy), and a boolean flag indicating whether to visualize the search (visualize). The method leverages the GenericSearch class, which encapsulates the problem and search algorithm. After obtaining the goal node through the search, the method returns a formatted string containing the sequence of actions, money spent, and the number of nodes expanded during the search.
+
+public Node SolveGenericSearch()
+This method, encapsulated within the GenericSearch class, initiates the problem-solving process based on the chosen search strategy. It calculates the minimum cost per prosperity level, the maximum gain from either BUILD action, and the current prosperity level. Using these values, it constructs an initial node and invokes the appropriate search method based on the selected strategy (BF, DF, ID, UC, GR1, GR2, AS1, AS2). The selected search method returns the goal node, or null if no solution is found.
+
+private LinkedList<Node> expand(Node current)
+The expand method generates successor nodes for a given node, representing possible actions that can be taken from the current state. It invokes action methods (build1, build2, requestEnergy, requestMaterials, requestFood, wait) defined in the Actions class. The resulting nodes are added to a linked list and returned for further exploration.
+
+private boolean goalTest(Node testNode)
+The goalTest method checks whether a given node satisfies the goal conditions. Specifically, it evaluates if the current prosperity level is greater than or equal to 100, and the money spent is less than or equal to 100,000. If the conditions are met, the method returns true, indicating that the goal state has been reached.
+
+public static Node requestFood(Node input, boolean visualize)
+This method represents the action of requesting food resources. It checks the feasibility of the action based on delays and resource availability. If the action is valid, it creates a new state and node reflecting the changes after the request.
+
+public static Node requestMaterials(Node input, boolean visualize)
+Similar to the requestFood method, this one represents the action of requesting materials. It checks constraints, updates the state, and creates a new node.
+
+public static Node requestEnergy(Node input, boolean visualize)
+The action of requesting energy resources is implemented here, adhering to the defined rules. If valid, it generates a new state and node reflecting the changes.
+
+public static Node wait(Node input, boolean visualize)
+The waiting action is captured in this method. It checks if waiting is allowed based on delays and then updates the state and creates a new node accordingly.
+
+public static Node build1(Node input, boolean visualize)
+This method simulates the action of building with type 1 resources. It checks constraints, updates the state, and creates a new node if the action is valid.
+
+public static Node build2(Node input, boolean visualize)
+Similar to build1, this method handles the action of building with type 2 resources, ensuring the rules are followed and generating a new state and node if the action is feasible.
+
+Search Strategies:
+Breadth-First Search (BF) and Depth-First Search (DF):
+The BF_DFSearch method utilizes a queue to perform Breadth-First or Depth-First search based on the chosen strategy. It expands nodes in the order determined by the respective strategy and continues until the goal state is reached or all nodes are explored.
+
+Iterative Deepening (ID):
+The IDSearch method implements Iterative Deepening, gradually increasing the depth limit until a solution is found using the same concept used in dfs.
+
+Uniform Cost Search (UC):
+The uniformCostSearch method employs a priority queue, prioritizing nodes with lower path costs. This ensures that the algorithm explores paths with lower accumulated costs first, leading to an optimal solution.
+
+Greedy Search (GR1 and GR2):
+Both greedySearch1 and greedySearch2 methods utilize priority queues with different heuristics. They prioritize nodes based on their heuristic values, aiming for solutions that seem promising according to the chosen heuristic.
+
+A Search (AS1 and AS2):
+Similar to greedy search, the AStar1 and AStar2 methods use priority queues. However, the priority is determined by the sum of the path cost and the heuristic value, ensuring a balance between cost-effectiveness and heuristic guidance.
+
+
+Heuristic function 1 : 
+h1(n)=(100-current prosperity level of n)/(max prosperity levels that can be produced from an action)
+it is admissible because we are estimating how many levels needed until we reach a goal which is 100 and dividing it by the maximum increase in levels so that it will give us the minimum number of actions required to reach the goal which of course is less than the actual path cost in which action has a positive cost
+
+h2(n): 1- Calculate the cost per prosperity point for each building action: This can be done by dividing the cost of each building action (including the price of the action and the cost of the resources it consumes) by the prosperity increase it provides.
+
+2-Find the minimum cost per prosperity point: The minimum cost per prosperity point is the lowest cost calculated in the previous step.
+
+3-Estimate the cost to reach the target prosperity level: Multiply the difference between the target prosperity level (100) and the current prosperity level by the minimum cost per prosperity point.
+
+This heuristic is admissible because it never overestimates the cost of reaching the goal. It assumes that all future actions will be as cost-efficient as the action with the minimum cost per prosperity point. 
