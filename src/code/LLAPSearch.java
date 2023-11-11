@@ -22,17 +22,21 @@ public class LLAPSearch extends GenericSearch {
                     Visualization=reconstructionVisualization(goalNode);
                     System.out.println(Visualization);
             }
-            return plan+";"+moneySpent+";"+numExpandedNodes;
+           String stringToReturn=plan+";"+moneySpent+";"+numExpandedNodes;
+              return stringToReturn.replaceFirst(",","");
+//            return plan+";"+moneySpent+";"+numExpandedNodes;
     }
     private static String reconstruction(Node goal){
             if(goal==null)
+                    return "";
+            if(goal.getParentNode()==null)
                     return "";
             return reconstruction(goal.getParentNode())+","+goal.getOperator();
     }
         private static String reconstructionVisualization(Node goal){
                 if(goal==null)
                         return "";
-                return reconstruction(goal.getParentNode())+"\n"+"Operator: "+goal.getOperator()+","+goal.toString();
+                return reconstructionVisualization(goal.getParentNode())+"\n"+"Operator: "+goal.getOperator()+"\n"+"New Node by above operator: "+goal.toString();
         }
 
     public static State parseInitialState(String initialState){
@@ -108,8 +112,7 @@ public class LLAPSearch extends GenericSearch {
                     materialsUseBUILD2,
                     energyUseBUILD2,
                     prosperityBUILD2,
-                    0,
-                    0);
+                    0,0,0,0);
     }
 
 

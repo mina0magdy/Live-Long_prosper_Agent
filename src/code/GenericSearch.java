@@ -91,26 +91,25 @@ public class GenericSearch {
         HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(nodesBF_DF.isEmpty())) {
             Node current = nodesBF_DF.removeFirst();
-            System.out.println(current.toString());
             visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
-            System.out.println(tempNodes);
-            System.out.println("repeated222222"+ visitedStates);
             for (int i = 0; i < 6; i++) {
                 if (searchStrategy == SearchStrategy.BF) {
                     if (tempNodes.get(i) != null) {
-                        if(visitedStates.get(tempNodes.get(i).getState().toString())!=null){
-                            nodesBF_DF.add(tempNodes.get(i));
-                            System.out.println("hereeeeeeeeeeeeeeeee");}
+                        if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                            visitedStates.put(tempNodes.get(i).getState().toString(),1);
+                            nodesBF_DF.add(tempNodes.get(i));}
                     }
                 }
                 if (searchStrategy == SearchStrategy.DF) {
                     if (tempNodes.get(5 - i) != null) {
-                        if(visitedStates.get(tempNodes.get(5 - i).getState().toString())!=null)
+                        if(visitedStates.get(tempNodes.get(5 - i).getState().toString())==null){
+                            visitedStates.put(tempNodes.get(5-i).getState().toString(),1);
                             nodesBF_DF.addFirst(tempNodes.get(5 - i));
+                        }
                     }
                 }
             }
@@ -121,19 +120,17 @@ public class GenericSearch {
     private Node IDSearch(Node initialNode){
         int currentMaxLevel=0;
         for(int maxLevel=0;maxLevel<Integer.MAX_VALUE;maxLevel++) {
-            for (int i = 0; i <= currentMaxLevel; i++) {
                 LinkedList<Node> nodesID = null;
                 nodesID = new LinkedList<>();
                 nodesID.add(initialNode);
                 boolean maxLevelReached=false;
-                HashSet<State> visitedStates=new HashSet<>();
+                HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
                 while (!(nodesID.isEmpty())) {
                     Node current = nodesID.removeFirst();
-                    visitedStates.add(current.getState());
+                    visitedStates.put(current.getState().toString(),1);
                     numExpandedNodes++;
                     if (goalTest(current))
                         return current;
-
                     //check if we reached tha max level
                     if (current.getDepth() == currentMaxLevel) {
                         maxLevelReached=true;
@@ -142,14 +139,15 @@ public class GenericSearch {
                     List<Node> tempNodes = expand(current);
                     for (int j = 0; j < 6; j++) {
                         if (tempNodes.get(5 - j) != null) {
-                            if(!visitedStates.contains(tempNodes.get(5 - j).getState()))
+                            if(visitedStates.get(tempNodes.get(5-j).getState().toString())==null){
+                                visitedStates.put(tempNodes.get(5-j).getState().toString(),1);
                                 nodesID.addFirst(tempNodes.get(5 - j));
+                            }
                         }
                     }
                 }
                 if(!maxLevelReached)
                     return null;
-            }
             currentMaxLevel++;
         }
         return null;
@@ -157,18 +155,21 @@ public class GenericSearch {
     private Node uniformCostSearch(Node initialNode){
         PriorityQueue <Node> ucQueue=new PriorityQueue<>((node1,node2)->node1.getPathCost()-node2.getPathCost());
         ucQueue.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(ucQueue.isEmpty())) {
             Node current = ucQueue.remove();
-            visitedStates.add(current.getState());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
             for (int i = 0; i < 6; i++) {
                 if (tempNodes.get(i) != null) {
-                    if(!visitedStates.contains(tempNodes.get(i).getState()))
+                    if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                        visitedStates.put(tempNodes.get(i).getState().toString(),1);
                         ucQueue.add(tempNodes.get(i));
+                    }
+
                 }
             }
         }
@@ -177,18 +178,20 @@ public class GenericSearch {
     private Node greedySearch1(Node initialNode){
         PriorityQueue <Node> gsQueue=new PriorityQueue<>((node1,node2)->node1.getHeuristicValue1()-node2.getHeuristicValue1());
         gsQueue.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(gsQueue.isEmpty())) {
             Node current = gsQueue.remove();
-            visitedStates.add(current.getState());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
             for (int i = 0; i < 6; i++) {
                 if (tempNodes.get(i) != null) {
-                    if(!visitedStates.contains(tempNodes.get(i).getState()))
+                    if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                        visitedStates.put(tempNodes.get(i).getState().toString(),1);
                         gsQueue.add(tempNodes.get(i));
+                    }
                 }
             }
         }
@@ -197,18 +200,20 @@ public class GenericSearch {
     private Node greedySearch2(Node initialNode){
         PriorityQueue <Node> gsQueue=new PriorityQueue<>((node1,node2)->node1.getHeuristicValue2()-node2.getHeuristicValue2());
         gsQueue.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(gsQueue.isEmpty())) {
             Node current = gsQueue.remove();
-            visitedStates.add(current.getState());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
             for (int i = 0; i < 6; i++) {
                 if (tempNodes.get(i) != null) {
-                    if(!visitedStates.contains(tempNodes.get(i).getState()))
+                    if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                        visitedStates.put(tempNodes.get(i).getState().toString(),1);
                         gsQueue.add(tempNodes.get(i));
+                    }
                 }
             }
         }
@@ -217,18 +222,20 @@ public class GenericSearch {
     private Node AStar1(Node initialNode){
         PriorityQueue <Node> AQueue=new PriorityQueue<>((node1,node2)->(node1.getHeuristicValue1()+node1.getPathCost())-(node2.getHeuristicValue1()+node2.getPathCost()));
         AQueue.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(AQueue.isEmpty())) {
             Node current = AQueue.remove();
-            visitedStates.add(current.getState());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
             for (int i = 0; i < 6; i++) {
                 if (tempNodes.get(i) != null) {
-                    if(!visitedStates.contains(tempNodes.get(i).getState()))
+                    if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                        visitedStates.put(tempNodes.get(i).getState().toString(),1);
                         AQueue.add(tempNodes.get(i));
+                    }
                 }
             }
         }
@@ -237,18 +244,20 @@ public class GenericSearch {
     private Node AStar2(Node initialNode){
         PriorityQueue <Node> AQueue=new PriorityQueue<>((node1,node2)->(node1.getHeuristicValue2()+node1.getPathCost())-(node2.getHeuristicValue2()+node2.getPathCost()));
         AQueue.add(initialNode);
-        HashSet<State> visitedStates=new HashSet<>();
+        HashMap<String,Integer> visitedStates=new HashMap<String,Integer>();
         while(!(AQueue.isEmpty())) {
             Node current = AQueue.remove();
-            visitedStates.add(current.getState());
+            visitedStates.put(current.getState().toString(),1);
             numExpandedNodes++;
             if (goalTest(current))
                 return current;
             List<Node> tempNodes = expand(current);
             for (int i = 0; i < 6; i++) {
                 if (tempNodes.get(i) != null) {
-                    if(!visitedStates.contains(tempNodes.get(i).getState()))
+                    if(visitedStates.get(tempNodes.get(i).getState().toString())==null){
+                        visitedStates.put(tempNodes.get(i).getState().toString(),1);
                         AQueue.add(tempNodes.get(i));
+                    }
                 }
             }
         }
@@ -257,12 +266,12 @@ public class GenericSearch {
 
     public  LinkedList<Node> expand(Node current) {
         LinkedList<Node> tempNodes = new LinkedList<>();
-        Node node1 = Actions.requestFood(current, visualize);
-        Node node2 = Actions.requestMaterials(current, visualize);
+        Node node1 = Actions.build1(current, visualize);
+        Node node2 = Actions.build2(current, visualize);
         Node node3 = Actions.requestEnergy(current, visualize);
-        Node node4 = Actions.wait(current, visualize);
-        Node node5 = Actions.build1(current, visualize);
-        Node node6 = Actions.build2(current, visualize);
+        Node node4 = Actions.requestMaterials(current, visualize);
+        Node node5 = Actions.requestFood(current, visualize);
+        Node node6 = Actions.wait(current, visualize);
         tempNodes.add(node1);
         tempNodes.add(node2);
         tempNodes.add(node3);
@@ -272,8 +281,8 @@ public class GenericSearch {
         return tempNodes;
     }
     private boolean goalTest(Node testNode){
-        if(testNode.getState().getCurrentProsperity()>=100 && testNode.getState().getMoneySoFar()<=100000 )
-           return true;
+        if(testNode.getState().getCurrentProsperity()>=100 && testNode.getState().getMoneySoFar()<=100000 ){
+           return true;}
         return false;
     }
 }
