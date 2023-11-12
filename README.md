@@ -187,9 +187,9 @@ Here's a brief explanation of the completeness and optimality of the algorithms:
 
 2. **Breadth-First Search (BFS):** BFS is complete, meaning it will find a solution if one exists. It is also optimal as long as the costs of all edges are equal.
 
-3. **Iterative Deepening Depth-First Search (IDS):** IDS is complete in finite state spaces. It is also optimal, meaning it finds the shallowest goal.
+3. **Iterative Deepening Depth-First Search (IDS):** IDS is complete in finite state spaces. It is also optimal as long as the costs of all edges are equal.
 
-4. **Uniform Cost Search (UCS):** UCS is complete and optimal. It explores options in every direction and does not have any information about the goal location.
+4. **Uniform Cost Search (UCS):** UCS is complete and optimal. It explores options in every direction according to path cost.
 
 5. **Greedy Best-First Search (GR1 and GR2):** The completeness and optimality of these algorithms depend on the heuristic used. If the heuristic is admissible and consistent, the algorithm is both complete and optimal.
 
