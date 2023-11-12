@@ -81,7 +81,7 @@ The `LLAPSearch` class extends the `GenericSearch` class and represents a specif
 
 ## Heuristic Functions
 ### Heuristic Function 1:
-\[h_1(n) = \frac{100 - \text{current prosperity level of } n}{\text{max prosperity levels that can be produced from an action}}\]
+\[ h_1(n) = \frac{100 - \text{current prosperity level of } n}{\text{max prosperity levels that can be produced from an action}} \]
 
 This heuristic is admissible because it estimates how many levels are needed until we reach a goal of 100 and divides it by the maximum increase in levels. This provides the minimum number of actions required to reach the goal, which is less than the actual path cost where an action has a positive cost.
 
