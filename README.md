@@ -81,13 +81,18 @@ The `LLAPSearch` class extends the `GenericSearch` class and represents a specif
 
 ## Heuristic Functions
 ### Heuristic Function 1:
-\[ h_1(n) = \frac{100 - \text{current prosperity level of } n}{\text{max prosperity levels that can be produced from an action}} \]
 
-This heuristic is admissible because it estimates how many levels are needed until we reach a goal of 100 and divides it by the maximum increase in levels. This provides the minimum number of actions required to reach the goal, which is less than the actual path cost where an action has a positive cost.
+-h1(n)=(100-current prosperity level of n)/(max prosperity levels that can be produced from an action)
+it is admissible because we are estimating how many levels needed until we reach a goal which is 100 and dividing it by the maximum increase in levels so that it will give us the minimum number of actions required to reach the goal which of course is less than the actual path cost in which action has a positive cost
+
+-This heuristic is admissible because it estimates how many levels are needed until we reach a goal of 100 and divides it by the maximum increase in levels. This provides the minimum number of actions required to reach the goal, which is less than the actual path cost where an action has a positive cost.
 
 ### Heuristic Function 2:
-\[h_2(n) = \text{Estimate the cost to reach the target prosperity level}\]
-\[= \text{Multiply the difference between the target prosperity level (100) and the current prosperity level by the minimum cost per prosperity point.}\]
+h2(n): 1- Calculate the cost per prosperity point for each building action: This can be done by dividing the cost of each building action (including the price of the action and the cost of the resources it consumes) by the prosperity increase it provides.
+
+2-Find the minimum cost per prosperity point: The minimum cost per prosperity point is the lowest cost calculated in the previous step.
+
+3-Estimate the cost to reach the target prosperity level: Multiply the difference between the target prosperity level (100) and the current prosperity level by the minimum cost per prosperity point.
 
 This heuristic is admissible because it never overestimates the cost of reaching the goal. It assumes that all future actions will be as cost-efficient as the action with the minimum cost per prosperity point.
 
@@ -167,8 +172,6 @@ Certainly, here's a summarized table of observations:
 
 - **CPU Utilization:**
   - A* searches (AS1 and AS2) and UC have higher CPU utilization
-
-.
   - DFS and Greedy approaches have lower CPU utilization.
 
 - **Used Memory:**
