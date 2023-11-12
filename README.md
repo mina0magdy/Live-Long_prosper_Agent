@@ -96,6 +96,7 @@ h2(n): 1- Calculate the cost per prosperity point for each building action: This
 
 This heuristic is admissible because it never overestimates the cost of reaching the goal. It assumes that all future actions will be as cost-efficient as the action with the minimum cost per prosperity point.
 
+
 ## Performance Metrics
 
 The performance of the algorithms is evaluated based on the following metrics:
@@ -103,6 +104,7 @@ The performance of the algorithms is evaluated based on the following metrics:
 - **Completeness:** Whether the algorithm is guaranteed to find a solution if one exists.
 - **Optimality:** Whether the algorithm is guaranteed to find the best solution.
 - **Number of Expanded Nodes:** The number of nodes that the algorithm expands during the search process.
+
 - **CPU Utilization (%):** The percentage of CPU resources used by the algorithm.
 - **Used Memory (MB):** The amount of RAM used by the algorithm (in megabytes).
 
@@ -172,6 +174,7 @@ Certainly, here's a summarized table of observations:
 
 - **CPU Utilization:**
   - A* searches (AS1 and AS2) and UC have higher CPU utilization
+
   - DFS and Greedy approaches have lower CPU utilization.
 
 - **Used Memory:**
@@ -194,3 +197,4 @@ Here's a brief explanation of the completeness and optimality of the algorithms:
 5. **Greedy Best-First Search (GR1 and GR2):** The completeness and optimality of these algorithms depend on the heuristic used. If the heuristic is admissible and consistent, the algorithm is both complete and optimal.
 
 6. **A\* Search (AS1 and AS2):** A* is complete and optimal if the heuristic used is admissible (never overestimates the cost) and consistent (the estimated cost from node n to the goal is no greater than the cost from n to any successor node n', plus the cost from n' to the goal).
+
