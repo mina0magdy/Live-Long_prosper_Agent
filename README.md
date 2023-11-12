@@ -1,80 +1,110 @@
 # Live-Long-Prosper-Agent
 
-# Search Tree Node ADT:
+## Problem Overview
+The problem involves designing a search agent for a town that aims to reach a prosperity level of 100. The town requires resources such as food, materials, and energy to achieve this goal. The agent has a budget of 100,000 to spend, and there's no additional source of income. The town has a limit for the amount of resources it can store (50 units per resource), and resources deplete with every action the agent takes.
 
-- **State (state):** Represents the current state of the problem, including prosperity, food, materials, and energy levels.
-  
-- **Parent Node (parentNode):** Reference to the node in the search tree that this node was generated from.
+The agent can perform various actions, including requesting deliveries of food, materials, and energy, waiting for deliveries to arrive, and building structures (BUILD1 and BUILD2) that contribute to the town's prosperity level. Each action has associated parameters, such as the amount and delay for resource deliveries, and different resource consumption, cost, and prosperity increase for building structures.
 
-- **Operator (operator):** Represents the action applied to the parent node to generate this node.
+The challenge is to find a plan that optimally utilizes the budget, manages resource levels effectively, and makes strategic decisions on when to request deliveries, wait, or build structures. The agent needs to consider the time delays for resource deliveries and ensure that the town's resources, money, and prosperity level are maintained above zero to continue taking actions. The overall objective is to formulate a sequence of actions that lead to the town reaching a prosperity level of 100 within the given constraints.
 
-- **Depth (depth):** Depth of this node in the search tree.
+## Search Tree Node ADT
+The `SearchTreeNode` abstract data type (ADT) is designed to represent nodes in the search tree. Each node has the following attributes:
 
-- **Path Cost (pathCost):** Total cost of the path from the initial state to this node, based on applied actions.
+- **State (`state`):** Represents the current state of the problem, including information about prosperity, food, materials, and energy levels.
+- **Parent Node (`parentNode`):** A reference to the node in the search tree that this node was generated from.
+- **Operator (`operator`):** Represents the action that was applied to the parent node to generate this node.
+- **Depth (`depth`):** The depth of this node in the search tree.
+- **Path Cost (`pathCost`):** The total cost of the path from the initial state to this node, calculated based on the costs of the actions that were applied.
+- **Heuristic Values (`heuristicValue1`, `heuristicValue2`):** Estimates of the cost from this state to a goal state. Used by some search algorithms to guide the search towards the goal efficiently.
 
-- **Heuristic Values (heuristicValue1, heuristicValue2):** Estimates of the cost from this state to a goal state, used by some search algorithms.
+The class includes getter and setter methods for each of these attributes and a `toString` method that returns a string representation of the node.
 
-The class includes getter and setter methods for each attribute and a `toString` method for a string representation.
+## Search Problem ADT
+The `SearchProblem` ADT represents a specific search problem. It includes the following attributes:
 
-# Search Problem ADT:
+- **Operators (`operators`):** A list of all possible actions that can be applied to a state in the problem. Each operator is an instance of the `Operator` class, defining an action and how it transitions from one state to another state.
+- **Initial State (`initialState`):** Represents the starting point of the problem. An instance of the `State` class encapsulates the state of the problem at a given point.
+- **Goal Test (`goalTest`):** The value defining the goal state of the problem. In this case, it’s a fixed value of 100 for prosperity. A state is considered a goal state if some property of the state equals this value and another value of the money spent.
 
-- **Operators (operators):** List of possible actions that can be applied to a state in the problem, instances of the Operator class.
+The class includes getter and setter methods for each of these attributes.
 
-- **Initial State (initialState):** Starting point of the problem, an instance of the State class.
+## LLAPSearch Problem
+The `LLAPSearch` class extends the `GenericSearch` class and represents a specific search problem. The constructor takes a `Problem` and a `SearchStrategy` as arguments, which are passed to the constructor of the superclass, `GenericSearch`.
 
-- **Goal Test (goalTest):** Value defining the goal state, e.g., 100 for prosperity.
+### Methods
+1. **`solve(String initialState, String searchStrategy, boolean visualize)`:**
+   - This static method is the main entry point for the problem-solving process. It takes three parameters: the initial state of the problem (`initialState`), the chosen search strategy (`searchStrategy`), and a boolean flag indicating whether to visualize the search (`visualize`). The method leverages the `GenericSearch` class, encapsulating the problem and search algorithm. After obtaining the goal node through the search, the method returns a formatted string containing the sequence of actions, money spent, and the number of nodes expanded during the search.
 
-The class includes getter and setter methods for each attribute.
+2. **`SolveGenericSearch()`:**
+   - This method, encapsulated within the `GenericSearch` class, initiates the problem-solving process based on the chosen search strategy. It calculates the minimum cost per prosperity level, the maximum gain from either BUILD action, and the current prosperity level. Using these values, it constructs an initial node and invokes the appropriate search method based on the selected strategy (BF, DF, ID, UC, GR1, GR2, AS1, AS2). The selected search method returns the goal node, or null if no solution is found.
 
-# LLAPSearch Problem:
+3. **`expand(Node current)`:**
+   - The `expand` method generates successor nodes for a given node, representing possible actions that can be taken from the current state. It invokes action methods (`build1`, `build2`, `requestEnergy`, `requestMaterials`, `requestFood`, `wait`) defined in the `Actions` class. The resulting nodes are added to a linked list and returned for further exploration.
 
-- **Constructor (`LLAPSearch(Problem problem, SearchStrategy searchStrategy)'):** Takes a Problem and a SearchStrategy as arguments.
+4. **`goalTest(Node testNode)`:**
+   - The `goalTest` method checks whether a given node satisfies the goal conditions. Specifically, it evaluates if the current prosperity level is greater than or equal to 100, and the money spent is less than or equal to 100,000. If the conditions are met, the method returns true, indicating that the goal state has been reached.
 
-- **`solve(String initialState, String searchStrategy, boolean visualize):`** Solves the search problem with initial state, search strategy, and visualization flag.
+### Action Methods
+5. **`requestFood(Node input, boolean visualize)`:**
+   - This method represents the action of requesting food resources. It checks the feasibility of the action based on delays and resource availability. If the action is valid, it creates a new state and node reflecting the changes after the request.
 
-- **`reconstruction(Node goal) and reconstructionVisualization(Node goal):`** Reconstructs the solution from the goal node back to the initial state.
+6. **`requestMaterials(Node input, boolean visualize)`:**
+   - Similar to the `requestFood` method, this one represents the action of requesting materials. It checks constraints, updates the state, and creates a new node.
 
-- **`parseInitialState(String initialState):`** Parses the initial state from a string representation to a State object.
+7. **`requestEnergy(Node input, boolean visualize)`:**
+   - The action of requesting energy resources is implemented here, adhering to the defined rules. If valid, it generates a new state and node reflecting the changes.
 
-- **`public static String solve(String initialState, String searchStrategy, boolean visualize):`** Main entry point for problem-solving, returns formatted solution.
+8. **`wait(Node input, boolean visualize)`:**
+   - The waiting action is captured in this method. It checks if waiting is allowed based on delays and then updates the state and creates a new node accordingly.
 
-- **`public Node SolveGenericSearch():`** Initiates the problem-solving process based on the chosen search strategy.
+9. **`build1(Node input, boolean visualize)`:**
+   - This method simulates the action of building with type 1 resources. It checks constraints, updates the state, and creates a new node if the action is valid.
 
-- **`private LinkedList<Node> expand(Node current):`** Generates successor nodes for a given node, representing possible actions.
+10. **`build2(Node input, boolean visualize)`:**
+    - Similar to `build1`, this method handles the action of building with type 2 resources, ensuring the rules are followed and generating a new state and node if the action is feasible.
 
-- **`private boolean goalTest(Node testNode):`** Checks whether a given node satisfies the goal conditions.
+### Search Strategies
+11. **Breadth-First Search (BF) and Depth-First Search (DF):**
+    - The `BF_DFSearch` method utilizes a queue to perform Breadth-First or Depth-First search based on the chosen strategy. It expands nodes in the order determined by the respective strategy and continues until the goal state is reached or all nodes are explored.
 
-- **Action methods (`requestFood`, `requestMaterials`, `requestEnergy`, `wait`, `build1`, `build2`):** Represent actions, validate feasibility, and generate new state and node.
+12. **Iterative Deepening (ID):**
+    - The `IDSearch` method implements Iterative Deepening, gradually increasing the depth limit until a solution is found using the same concept used in DFS.
 
-# Search Strategies:
+13. **Uniform Cost Search (UC):**
+    - The `uniformCostSearch` method employs a priority queue, prioritizing nodes with lower path costs. This ensures that the algorithm explores paths with lower accumulated costs first, leading to an optimal solution.
 
-- **Breadth-First Search (BF) and Depth-First Search (DF):** Utilize a queue for BFS or DFS based on the chosen strategy.
+14. **Greedy Search (GR1 and GR2):**
+    - Both `greedySearch1` and `greedySearch2` methods utilize priority queues with different heuristics. They prioritize nodes based on their heuristic values, aiming for solutions that seem promising according to the chosen heuristic.
 
-- **Iterative Deepening (ID):** Implements Iterative Deepening, gradually increasing the depth limit.
+15. **A* Search (AS1 and AS2):**
+    - Similar to greedy search, the `aStar1` and `aStar2` methods use priority queues. However, the priority is determined by the sum of the path cost and the heuristic value, ensuring a balance between cost-effectiveness and heuristic guidance.
 
-- **Uniform Cost Search (UC):** Uses a priority queue, prioritizing nodes with lower path costs.
+## Heuristic Functions
+### Heuristic Function 1:
 
-- **Greedy Search (GR1 and GR2):** Utilizes priority queues with different heuristics.
+-h1(n)=(100-current prosperity level of n)/(max prosperity levels that can be produced from an action)
+it is admissible because we are estimating how many levels needed until we reach a goal which is 100 and dividing it by the maximum increase in levels so that it will give us the minimum number of actions required to reach the goal which of course is less than the actual path cost in which action has a positive cost
 
-- **A Search (AS1 and AS2):** Uses priority queues with the sum of path cost and heuristic value as the priority.
+-This heuristic is admissible because it estimates how many levels are needed until we reach a goal of 100 and divides it by the maximum increase in levels. This provides the minimum number of actions required to reach the goal, which is less than the actual path cost where an action has a positive cost.
 
-# Heuristic Functions:
+### Heuristic Function 2:
+h2(n): 1- Calculate the cost per prosperity point for each building action: This can be done by dividing the cost of each building action (including the price of the action and the cost of the resources it consumes) by the prosperity increase it provides.
 
-- **`h1(n)`:** Admissible heuristic estimating the minimum number of actions required to reach the goal.
+2-Find the minimum cost per prosperity point: The minimum cost per prosperity point is the lowest cost calculated in the previous step.
 
-- **`h2(n)`:** Admissible heuristic estimating the cost to reach the target prosperity level.
+3-Estimate the cost to reach the target prosperity level: Multiply the difference between the target prosperity level (100) and the current prosperity level by the minimum cost per prosperity point.
 
-# Performance Comparison of Search Algorithms
+This heuristic is admissible because it never overestimates the cost of reaching the goal. It assumes that all future actions will be as cost-efficient as the action with the minimum cost per prosperity point.
 
-This README provides a comparison of the performance of different search algorithms in terms of completeness, optimality, RAM usage, CPU utilization, and the number of expanded nodes.
 
 ## Performance Metrics
 
 The performance of the algorithms is evaluated based on the following metrics:
 
-- **Completeness**: Whether the algorithm is guaranteed to find a solution if one exists.
-- **Optimality**: Whether the algorithm is guaranteed to find the best solution.
-- **Number of Expanded Nodes**: The number of nodes that the algorithm expands during the search process.
+- **Completeness:** Whether the algorithm is guaranteed to find a solution if one exists.
+- **Optimality:** Whether the algorithm is guaranteed to find the best solution.
+- **Number of Expanded Nodes:** The number of nodes that the algorithm expands during the search process.
+
 - **CPU Utilization (%):** The percentage of CPU resources used by the algorithm.
 - **Used Memory (MB):** The amount of RAM used by the algorithm (in megabytes).
 
@@ -141,9 +171,10 @@ Certainly, here's a summarized table of observations:
 - **Number of Expanded Nodes:**
   - BFS tends to expand an exceptionally large number of nodes.
   - Greedy approaches (GR1 and GR2) are more efficient in terms of the number of nodes expanded.
-  
+
 - **CPU Utilization:**
-  - A* searches (AS1 and AS2) and UC have higher CPU utilization.
+  - A* searches (AS1 and AS2) and UC have higher CPU utilization
+
   - DFS and Greedy approaches have lower CPU utilization.
 
 - **Used Memory:**
@@ -155,17 +186,15 @@ Certainly, here's a summarized table of observations:
 
 Here's a brief explanation of the completeness and optimality of the algorithms:
 
-1. **Depth-First Search (DFS)**: DFS is not complete in infinite state spaces or in spaces with loops. It is also not optimal as it does not guarantee that the solution found is the best one.
+1. **Depth-First Search (DFS):** DFS is not complete in infinite state spaces or in spaces with loops. It is also not optimal as it does not guarantee that the solution found is the best one.
 
-2. **Breadth-First Search (BFS)**: BFS is complete, meaning it will find a solution if one exists. It is also optimal as long as the costs of all edges are equal.
+2. **Breadth-First Search (BFS):** BFS is complete, meaning it will find a solution if one exists. It is also optimal as long as the costs of all edges are equal.
 
-3. **Iterative Deepening Depth-First Search (IDS)**: IDS is complete in finite state spaces. It is also optimal, meaning it finds the shallowest goal.
+3. **Iterative Deepening Depth-First Search (IDS):** IDS is complete in finite state spaces. It is also optimal as long as the costs of all edges are equal.
 
-4. **Uniform Cost Search (UCS)**: UCS is complete and optimal. It explores options in every direction and does not have any information about the goal location.
+4. **Uniform Cost Search (UCS):** UCS is complete and optimal. It explores options in every direction according to path cost.
 
-5. **Greedy Best-First Search (GR1 and GR2)**: The completeness and optimality of these algorithms depend on the heuristic used. If the heuristic is admissible and consistent, the algorithm is both complete and optimal.
+5. **Greedy Best-First Search (GR1 and GR2):** The completeness and optimality of these algorithms depend on the heuristic used. If the heuristic is admissible and consistent, the algorithm is both complete and optimal.
 
-6. **A\* Search (AS1 and AS2)**: A* is complete and optimal if the heuristic used is admissible (never overestimates the cost) and consistent (the estimated cost from node n to the goal is no greater than the cost from n to any successor node n', plus the cost from n' to the goal).
-
-Please note that the performance of these algorithms can vary depending on the specific problem and conditions. For example, while BFS is optimal for problems with equal step costs, it may not be the best choice for problems with varying step costs, where UCS might perform better. Similarly, while DFS is not complete in general, it can be complete in problems without loops or with a finite state space. These differences highlight the trade-offs between the different search strategies in terms of resource usage and search efficiency.
+6. **A\* Search (AS1 and AS2):** A* is complete and optimal if the heuristic used is admissible (never overestimates the cost) and consistent (the estimated cost from node n to the goal is no greater than the cost from n to any successor node n', plus the cost from n' to the goal).
 
