@@ -1,24 +1,31 @@
 package code;
+import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
+
+import com.sun.management.OperatingSystemMXBean;
 
 public class Main {
     public static void main(String[] args) {
-//        int currentMaxLevel=0;
-//        for(int j=0;j<5;j++) {
-//            for (int i = 0; i <= currentMaxLevel; i++) {
-//                System.out.print("\n"+i);
-//
-//            }
-//            currentMaxLevel++;
-//        }
-//        State s1=new State(100,100,100,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10);
-//        State s2=new State(100,100,100,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,20,20,10,10,10,10);
-//        System.out.println(s1.equals(s2));
-        String initialState4 = "21;" +
-                "15,19,13;" +
-                "50,50,50;" +
-                "12,2;16,2;9,2;" +
-                "3076,15,26,28,40;" +
-                "5015,25,15,15,38;";
-        System.out.println(LLAPSearch.solve(initialState4, "BF", false));
-  }
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        String initialState0 = "17;" +
+                "49,30,46;" +
+                "7,57,6;" +
+                "7,1;20,2;29,2;" +
+                "350,10,9,8,28;" +
+                "408,8,12,13,34;";
+        DecimalFormat df = new DecimalFormat("#.##");
+        String sol=LLAPSearch.solve(initialState0, "AS1", false);
+        System.out.println("Num of Expanded Nodes: "+sol.split(";")[2]);
+        String formatted = df.format((osBean.getProcessCpuLoad() * 100));
+        System.out.println("CPU utilization: "+ formatted+ " %");
+        Runtime runtime = Runtime.getRuntime();
+
+        // Used memory
+        long memory = runtime.totalMemory() - runtime.freeMemory();
+        System.out.println("Used memory in megabytes: "
+                + bytesToMegabytes(memory));
+    }
+    private static long bytesToMegabytes(long bytes) {
+        return bytes / (1024L * 1024L);
+    }
 }

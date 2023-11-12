@@ -38,6 +38,9 @@ public class Actions {
         if(input.getState().getCurrentFoodDelay()!=0 || input.getState().getCurrentEnergyDelay()!=0 || input.getState().getCurrentMaterialsDelay()!=0) {
             return null;
         }
+        if(input.getState().getCurrentFood()==50 ) {
+            return null;
+        }
         State newState = copy(input.getState());
         int MoneySpent=newState.getUnitPriceEnergy()+newState.getUnitPriceFood()+newState.getUnitPriceMaterials();
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
@@ -72,6 +75,9 @@ public class Actions {
     public static Node requestMaterials(Node input,boolean visualize) {
         if(input.getState().getCurrentFoodDelay()!=0 || input.getState().getCurrentEnergyDelay()!=0 || input.getState().getCurrentMaterialsDelay()!=0)
             return null;
+        if(input.getState().getCurrentMaterials()==50 ) {
+            return null;
+        }
         State newState = copy(input.getState());
         int MoneySpent=newState.getUnitPriceEnergy()+newState.getUnitPriceFood()+newState.getUnitPriceMaterials();
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
@@ -98,6 +104,9 @@ public class Actions {
     public static Node requestEnergy(Node input,boolean visualize) {
         if(input.getState().getCurrentFoodDelay()!=0 || input.getState().getCurrentEnergyDelay()!=0 || input.getState().getCurrentMaterialsDelay()!=0)
             return null;
+        if(input.getState().getCurrentEnergy()==50 ) {
+            return null;
+        }
         State newState = copy(input.getState());
         int MoneySpent=newState.getUnitPriceEnergy()+newState.getUnitPriceFood()+newState.getUnitPriceMaterials();
         newState.setMoneySoFar(newState.getMoneySoFar()+MoneySpent);
